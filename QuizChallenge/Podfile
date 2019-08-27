@@ -17,7 +17,6 @@ target 'QuizChallenge' do
   target 'QuizChallengeUITests' do
     inherit! :search_paths
     pod 'KIF'
-    pod 'KIF-Quick'
   end
 
 end
