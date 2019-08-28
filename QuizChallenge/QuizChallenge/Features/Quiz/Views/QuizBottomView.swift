@@ -46,7 +46,6 @@ class QuizBottomView: UIView, CodeView {
         
         scoreLabel.font = UIFont.boldSystemFont(ofSize: 17)
         scoreLabel.textColor = .black
-        scoreLabel.text = "10/50"
         
         timeLabel.font = UIFont.boldSystemFont(ofSize: 17)
         timeLabel.textColor = .black

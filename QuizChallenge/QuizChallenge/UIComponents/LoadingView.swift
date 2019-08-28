@@ -42,12 +42,13 @@ final class LoadingView: UIView, CodeView {
     func startLoading(on viewController: UIViewController, title: String) {
         DispatchQueue.main.async { [weak self] in
             guard let self = self else { return }
+            self.isHidden = false
             self.activityIndicator.startAnimating()
             self.titleLabel.text = title
-            
+            self.setupViews()
             self.removeAnyPresentedLoadingOnView(viewController: viewController)
             viewController.view.addSubview(self)
-            self.isUserInteractionEnabled = false
+            self.superview?.isUserInteractionEnabled = false
             self.constrainEdges(to: viewController.view)
             self.alpha = 0.0
             viewController.view.layoutIfNeeded()
@@ -60,6 +61,7 @@ final class LoadingView: UIView, CodeView {
     func stopLoading() {
         DispatchQueue.main.async {
             self.activityIndicator.stopAnimating()
+            self.superview?.isUserInteractionEnabled = true
             UIView.animate(withDuration: 0.2, animations: {
                 self.alpha = 0.0
             }) { (_) in

@@ -8,14 +8,13 @@
 import Foundation
 
 protocol QuizViewDelegate: AnyObject {
+    var state: ViewState { get set }
     func updateAnswers(with answers: [String])
     func updateQuizTitle(with title: String)
     func setButtonTitle(text: String)
     func displayTimer(text: String)
     func displayScore(text: String)
-    func showLoading()
-    func hideLoading()
-    func showAlert(with title: String, text: String, buttonTitle: String)
+    func showAlert(with title: String, text: String, buttonTitle: String, action: (()->Void)?)
 }
 
 class QuizPresenter {
@@ -51,19 +50,20 @@ class QuizPresenter {
     }
     
     private func fetchKeywords() {
-        self.quizView?.showLoading()
-        DispatchQueue.main.asyncAfter(deadline: .now() + 4.0) {
-            self.keywordsService.keywords { [weak self] (result) in
-                self?.quizView?.hideLoading()
-                switch result {
-                case .success(let keywords):
-                    self?.keywords = keywords
-                case .failure(let error):
-                    self?.quizView?.showAlert(with: "Error", text: error.localizedDescription, buttonTitle: "OK")
-                }
+        
+        self.quizView?.state = .loading
+        self.keywordsService.keywords { [weak self] (result) in
+            switch result {
+            case .success(let keywords):
+                self?.quizView?.state = .normal
+                self?.keywords = keywords
+                self?.quizView?.displayScore(text: "0/\(keywords.answer.count)")
+            case .failure(let error):
+                self?.quizView?.state = .error(title: "Error", text: error.localizedDescription, buttonTitle: "Try Again", action: { [weak self] in
+                    self?.fetchKeywords()
+                })
             }
         }
-        
     }
     
     func startOrResetGame() {

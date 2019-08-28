@@ -7,11 +7,31 @@
 
 import UIKit
 
+enum ViewState {
+    case loading
+    case error(title: String, text: String, buttonTitle: String, action: (()->Void)?)
+    case normal
+}
+
 class QuizViewController: UIViewController {
     
     var quizView: QuizView = QuizView()
     lazy var tableViewDataSource = QuizTableViewDataSource()
     lazy var presenter: QuizPresenter = QuizPresenter(quizView: self)
+    
+    var state: ViewState = .loading {
+        didSet {
+            switch state {
+            case .loading:
+                self.setupForLoadingState()
+            case .error(let title, let text, let buttonTitle, let action):
+                self.setupForErrorState()
+                self.showAlert(with: title, text: text, buttonTitle: buttonTitle, action: action)
+            case .normal:
+                self.setupForNormalState()
+            }
+        }
+    }
     
     override var inputAccessoryView: UIView? {
         get {
@@ -60,6 +80,25 @@ class QuizViewController: UIViewController {
     @objc func dismissKeyboard (_ sender: UITapGestureRecognizer) {
         self.view.endEditing(true)
     }
+    
+    func setupForLoadingState() {
+        self.inputAccessoryView?.isHidden = true
+        self.startLoading()
+        self.quizView.shouldHideSubViews(true)
+        
+    }
+    
+    func setupForNormalState() {
+        self.inputAccessoryView?.isHidden = false
+        self.quizView.shouldHideSubViews(false)
+        self.stopLoading()
+    }
+    
+    func setupForErrorState() {
+        self.inputAccessoryView?.isHidden = true
+        self.quizView.shouldHideSubViews(true)
+        self.stopLoading()
+    }
 
 }
 
@@ -84,21 +123,11 @@ extension QuizViewController: QuizViewDelegate {
         self.quizView.setScore(value: text)
     }
     
-    func showLoading() {
-        quizView.shouldHideSubViews(true)
-        self.startLoading()
-    }
-    
-    func hideLoading() {
-        quizView.shouldHideSubViews(false)
-        self.stopLoading()
-    }
-    
-    func showAlert(with title: String, text: String, buttonTitle: String) {
+    func showAlert(with title: String, text: String, buttonTitle: String, action: (()->Void)?) {
         let alert = UIAlertController(title: title, message: text, preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: buttonTitle, style: .default, handler: nil))
+        alert.addAction(UIAlertAction(title: buttonTitle, style: .default, handler: { (_) in
+            action?()
+        }))
         self.present(alert, animated: true)
     }
-    
-    
 }
