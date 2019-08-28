@@ -39,6 +39,7 @@ class QuizViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.setupViews()
+        self.presenter.viewDidFinishLoading()
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -63,6 +64,14 @@ class QuizViewController: UIViewController {
 }
 
 extension QuizViewController: QuizViewDelegate {
+    func updateAnswers(with answers: [String]) {
+        self.tableViewDataSource.answers = answers
+    }
+    
+    func updateQuizTitle(with title: String) {
+        self.quizView.setQuestionTitle(title)
+    }
+    
     func setButtonTitle(text: String) {
         self.quizView.setButtonTitle(title: text)
     }
@@ -76,10 +85,12 @@ extension QuizViewController: QuizViewDelegate {
     }
     
     func showLoading() {
+        quizView.shouldHideSubViews(true)
         self.startLoading()
     }
     
     func hideLoading() {
+        quizView.shouldHideSubViews(false)
         self.stopLoading()
     }
     

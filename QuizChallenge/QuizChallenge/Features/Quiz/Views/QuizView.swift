@@ -48,7 +48,6 @@ class QuizView: UIView, CodeView {
         self.titleLabel.textColor = .black
         self.titleLabel.textAlignment = .left
         self.titleLabel.numberOfLines = 2
-        self.titleLabel.text = "What are all the java keywords?"
         
         self.textField.borderStyle = .roundedRect
         self.textField.placeholder = "Insert Word"
@@ -99,5 +98,15 @@ class QuizView: UIView, CodeView {
     
     func setButtonTitle(title: String) {
         self.quizBottomView.resetButton.setTitle(title, for: .normal)
+    }
+    
+    func setQuestionTitle(_ text: String) {
+        self.titleLabel.text = text
+    }
+    
+    func shouldHideSubViews(_ hide: Bool) {
+        for view in subviews {
+            view.isHidden = hide
+        }
     }
 }

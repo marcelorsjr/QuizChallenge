@@ -40,28 +40,32 @@ final class LoadingView: UIView, CodeView {
     }
     
     func startLoading(on viewController: UIViewController, title: String) {
-        self.activityIndicator.startAnimating()
-        self.titleLabel.text = title
-        
-        removeAnyPresentedLoadingOnView(viewController: viewController)
-        viewController.view.addSubview(self)
-        viewController.view.isUserInteractionEnabled = false
-        self.constrainEdges(to: viewController.view)
-        self.alpha = 0.0
-        viewController.view.layoutIfNeeded()
-        UIView.animate(withDuration: 0.3) {
-            self.alpha = 1.0
+        DispatchQueue.main.async { [weak self] in
+            guard let self = self else { return }
+            self.activityIndicator.startAnimating()
+            self.titleLabel.text = title
+            
+            self.removeAnyPresentedLoadingOnView(viewController: viewController)
+            viewController.view.addSubview(self)
+            self.isUserInteractionEnabled = false
+            self.constrainEdges(to: viewController.view)
+            self.alpha = 0.0
+            viewController.view.layoutIfNeeded()
+            UIView.animate(withDuration: 0.3) {
+                self.alpha = 1.0
+            }
         }
     }
     
     func stopLoading() {
-        self.activityIndicator.stopAnimating()
-        
-        UIView.animate(withDuration: 0.2, animations: {
-            self.alpha = 0.0
-        }) { (_) in
-            self.removeConstraints(self.constraints)
-            self.removeFromSuperview()
+        DispatchQueue.main.async {
+            self.activityIndicator.stopAnimating()
+            UIView.animate(withDuration: 0.2, animations: {
+                self.alpha = 0.0
+            }) { (_) in
+                self.removeConstraints(self.constraints)
+                self.removeFromSuperview()
+            }
         }
     }
     

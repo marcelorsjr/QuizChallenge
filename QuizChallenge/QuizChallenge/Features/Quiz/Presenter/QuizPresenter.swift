@@ -8,6 +8,8 @@
 import Foundation
 
 protocol QuizViewDelegate: AnyObject {
+    func updateAnswers(with answers: [String])
+    func updateQuizTitle(with title: String)
     func setButtonTitle(text: String)
     func displayTimer(text: String)
     func displayScore(text: String)
@@ -18,18 +20,55 @@ protocol QuizViewDelegate: AnyObject {
 
 class QuizPresenter {
     weak private var quizView : QuizViewDelegate?
+    private let keywordsService: KeywordsService
+    private var keywords: Keywords? {
+        didSet {
+            guard let keywords = self.keywords else {
+                quizView?.updateQuizTitle(with: "")
+                return
+            }
+            quizView?.updateQuizTitle(with: keywords.question)
+        }
+    }
     
+    private var answers: [String] = [] {
+        didSet {
+            quizView?.updateAnswers(with: self.answers)
+        }
+    }
     private var isGameRunning = false
     private let numberOfSeconds = 300
     private var currentSecond = 300
     private var timer: Timer?
     
-    init(quizView: QuizViewDelegate){
+    init(quizView: QuizViewDelegate, keywordsService: KeywordsService = KeywordsServiceImpl()){
+        self.keywordsService = keywordsService
         self.quizView = quizView
+    }
+    
+    func viewDidFinishLoading() {
+        self.fetchKeywords()
+    }
+    
+    private func fetchKeywords() {
+        self.quizView?.showLoading()
+        DispatchQueue.main.asyncAfter(deadline: .now() + 4.0) {
+            self.keywordsService.keywords { [weak self] (result) in
+                self?.quizView?.hideLoading()
+                switch result {
+                case .success(let keywords):
+                    self?.keywords = keywords
+                case .failure(let error):
+                    self?.quizView?.showAlert(with: "Error", text: error.localizedDescription, buttonTitle: "OK")
+                }
+            }
+        }
+        
     }
     
     func startOrResetGame() {
         if isGameRunning {
+            self.answers = []
             self.quizView?.setButtonTitle(text: "Start")
             self.stopTimer()
         } else {

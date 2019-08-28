@@ -9,5 +9,5 @@ import Foundation
 
 struct Keywords: Codable {
     let question: String
-    let answers: [String]
+    let answer: [String]
 }
