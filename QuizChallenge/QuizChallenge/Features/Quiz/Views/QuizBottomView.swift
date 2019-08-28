@@ -20,6 +20,8 @@ class QuizBottomView: UIView, CodeView {
         return button
     }()
     
+    var resetButtonAction: (() -> Void)?
+    
     override init(frame: CGRect = .zero) {
         super.init(frame: frame)
         self.setupViews()
@@ -34,12 +36,13 @@ class QuizBottomView: UIView, CodeView {
         self.translatesAutoresizingMaskIntoConstraints = false
         self.backgroundColor = #colorLiteral(red: 0.9607843137, green: 0.9607843137, blue: 0.9607843137, alpha: 1)
         
-        resetButton.setTitle("Reset", for: .normal)
+        resetButton.setTitle("Start", for: .normal)
         resetButton.backgroundColor = #colorLiteral(red: 1, green: 0.5137254902, blue: 0, alpha: 1)
         resetButton.setTitleColor(.white, for: .normal)
         resetButton.titleLabel?.font = UIFont.systemFont(ofSize: 17, weight: .semibold)
         resetButton.layer.cornerRadius = 8.0
         resetButton.layer.masksToBounds = false
+        resetButton.addTarget(self, action: #selector(didTapResetButton), for: .touchUpInside)
         
         scoreLabel.font = UIFont.boldSystemFont(ofSize: 17)
         scoreLabel.textColor = .black
@@ -47,9 +50,12 @@ class QuizBottomView: UIView, CodeView {
         
         timeLabel.font = UIFont.boldSystemFont(ofSize: 17)
         timeLabel.textColor = .black
-        timeLabel.text = "04:23"
+        timeLabel.text = "05:00"
     }
     
+    @objc func didTapResetButton() {
+        self.resetButtonAction?()
+    }
     
     func setupViewHierarchy() {
         addSubview(resetButton)

@@ -10,6 +10,8 @@ import UIKit
 class QuizViewController: UIViewController {
     
     var quizView: QuizView = QuizView()
+    lazy var tableViewDataSource = QuizTableViewDataSource()
+    lazy var presenter: QuizPresenter = QuizPresenter(quizView: self)
     
     override var inputAccessoryView: UIView? {
         get {
@@ -36,22 +38,56 @@ class QuizViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.setupTapGesture()
+        self.setupViews()
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        
-
     }
     
-    private func setupTapGesture() {
+    private func setupViews() {
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(self.dismissKeyboard (_:)))
         self.view.addGestureRecognizer(tapGesture)
+        
+        self.quizView.resetButtonAction = { [weak self] in
+            self?.presenter.startOrResetGame()
+        }
+        
+        self.quizView.setupTableView(with: tableViewDataSource)
     }
     
     @objc func dismissKeyboard (_ sender: UITapGestureRecognizer) {
         self.view.endEditing(true)
     }
 
+}
+
+extension QuizViewController: QuizViewDelegate {
+    func setButtonTitle(text: String) {
+        self.quizView.setButtonTitle(title: text)
+    }
+    
+    func displayTimer(text: String) {
+        self.quizView.setTimer(value: text)
+    }
+    
+    func displayScore(text: String) {
+        self.quizView.setScore(value: text)
+    }
+    
+    func showLoading() {
+        self.startLoading()
+    }
+    
+    func hideLoading() {
+        self.stopLoading()
+    }
+    
+    func showAlert(with title: String, text: String, buttonTitle: String) {
+        let alert = UIAlertController(title: title, message: text, preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: buttonTitle, style: .default, handler: nil))
+        self.present(alert, animated: true)
+    }
+    
+    
 }

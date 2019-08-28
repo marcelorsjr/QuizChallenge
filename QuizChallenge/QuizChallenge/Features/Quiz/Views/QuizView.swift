@@ -20,7 +20,15 @@ class QuizView: UIView, CodeView {
         return tableView
     }()
     
-    lazy var quizBottomView = QuizBottomView(frame: CGRect(x: 0, y: 0, width: frame.width, height: 120))
+    lazy var quizBottomView = QuizBottomView(frame: CGRect(x: 0, y: 0, width: frame.width, height: self.quizBottomViewHeight))
+    
+    var resetButtonAction: (() -> Void)? {
+        didSet {
+            quizBottomView.resetButtonAction = self.resetButtonAction
+        }
+    }
+    
+    private let quizBottomViewHeight: CGFloat = 120.0
     
     override init(frame: CGRect = .zero) {
         super.init(frame: frame)
@@ -46,12 +54,20 @@ class QuizView: UIView, CodeView {
         self.textField.placeholder = "Insert Word"
         self.textField.backgroundColor = #colorLiteral(red: 0.9607843137, green: 0.9607843137, blue: 0.9607843137, alpha: 1)
         self.textField.autocorrectionType = .no
+        
+        tableView.tableFooterView = UIView()
     }
     
     func setupViewHierarchy() {
         addSubview(titleLabel)
         addSubview(textField)
         addSubview(tableView)
+    }
+    
+    func setupTableView(with dataSource: QuizTableViewDataSource) {
+        dataSource.tableView = self.tableView
+        self.tableView.dataSource = dataSource
+        dataSource.registerCells()
     }
     
     func setupConstraints() {
@@ -70,6 +86,18 @@ class QuizView: UIView, CodeView {
             .topAnchor(equalTo: textField.bottomAnchor, constant: 10)
             .leadingAnchor(equalTo: self.leadingAnchor, constant: 16)
             .trailingAnchor(equalTo: self.trailingAnchor, constant: -16)
-            .bottomAnchor(equalTo: safeAreaLayoutGuide.bottomAnchor, constant: -10)
+            .bottomAnchor(equalTo: safeAreaLayoutGuide.bottomAnchor, constant: -self.quizBottomViewHeight)
+    }
+    
+    func setScore(value: String) {
+        self.quizBottomView.scoreLabel.text = value
+    }
+    
+    func setTimer(value: String) {
+        self.quizBottomView.timeLabel.text = value
+    }
+    
+    func setButtonTitle(title: String) {
+        self.quizBottomView.resetButton.setTitle(title, for: .normal)
     }
 }
