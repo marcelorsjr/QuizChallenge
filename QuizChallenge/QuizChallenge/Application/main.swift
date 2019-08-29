@@ -1,11 +1,11 @@
 import UIKit
 
-let appDelegateClass: AnyClass =
-    NSClassFromString("TestingAppDelegate") ?? AppDelegate.self
+let kIsRunningTests = NSClassFromString("XCTestCase") != nil
+let appDelegateClass = kIsRunningTests ? NSStringFromClass(TestingAppDelegate.self) : NSStringFromClass(AppDelegate.self)
 
 UIApplicationMain(
     CommandLine.argc,
     CommandLine.unsafeArgv,
     nil,
-    NSStringFromClass(appDelegateClass)
+    appDelegateClass
 )

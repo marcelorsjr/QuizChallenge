@@ -145,7 +145,9 @@ class QuizViewControllerKIFSpecs: KIFSpec {
                         
                         it("Should show alert") {
                             viewTester().usingLabel(Constants.finishGameText)?.waitForView()
+                            expect(window).to(haveValidSnapshot(tolerance: 0.1))
                             viewTester().usingLabel(Constants.playAgain)?.waitForTappableView()?.tap()
+                            
                         }
                     }
                 }
