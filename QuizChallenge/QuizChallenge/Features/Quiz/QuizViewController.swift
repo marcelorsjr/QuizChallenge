@@ -74,6 +74,7 @@ class QuizViewController: UIViewController {
             self?.presenter.startOrResetGame()
         }
         
+        self.quizView.setTextFieldDelegate(self)
         self.quizView.setupTableView(with: tableViewDataSource)
     }
     
@@ -103,6 +104,10 @@ class QuizViewController: UIViewController {
 }
 
 extension QuizViewController: QuizViewDelegate {
+    func clearTextField() {
+        self.quizView.clearTextfield()
+    }
+    
     func updateAnswers(with answers: [String]) {
         self.tableViewDataSource.answers = answers
     }
@@ -123,11 +128,28 @@ extension QuizViewController: QuizViewDelegate {
         self.quizView.setScore(value: text)
     }
     
+    func setTextfieldEnabled(_ enabled: Bool) {
+        self.quizView.enableTextfield(enabled)
+    }
+    
     func showAlert(with title: String, text: String, buttonTitle: String, action: (()->Void)?) {
         let alert = UIAlertController(title: title, message: text, preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: buttonTitle, style: .default, handler: { (_) in
             action?()
         }))
         self.present(alert, animated: true)
+    }
+}
+
+extension QuizViewController: UITextFieldDelegate {
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        if string == "" {
+            return true
+        }
+        
+        let newText = (textField.text ?? "") + string
+        textField.text = newText
+        self.presenter.didType(word: newText)
+        return false
     }
 }

@@ -50,7 +50,7 @@ class QuizView: UIView, CodeView {
         self.titleLabel.numberOfLines = 2
         
         self.textField.borderStyle = .roundedRect
-        self.textField.placeholder = "Insert Word"
+        self.textField.placeholder = Constants.insertWord
         self.textField.backgroundColor = #colorLiteral(red: 0.9607843137, green: 0.9607843137, blue: 0.9607843137, alpha: 1)
         self.textField.autocorrectionType = .no
         
@@ -67,6 +67,10 @@ class QuizView: UIView, CodeView {
         dataSource.tableView = self.tableView
         self.tableView.dataSource = dataSource
         dataSource.registerCells()
+    }
+    
+    func setTextFieldDelegate(_ delegate: UITextFieldDelegate) {
+        self.textField.delegate = delegate
     }
     
     func setupConstraints() {
@@ -102,6 +106,14 @@ class QuizView: UIView, CodeView {
     
     func setQuestionTitle(_ text: String) {
         self.titleLabel.text = text
+    }
+    
+    func clearTextfield() {
+        self.textField.text = ""
+    }
+    
+    func enableTextfield(_ enable: Bool) {
+        self.textField.isEnabled = enable
     }
     
     func shouldHideSubViews(_ hide: Bool) {
