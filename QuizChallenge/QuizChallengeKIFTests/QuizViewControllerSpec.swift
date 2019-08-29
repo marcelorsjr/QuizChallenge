@@ -6,7 +6,13 @@ import Nimble_Snapshots
 @testable import QuizChallenge
 
 
+
 class QuizViewControllerKIFSpecs: KIFSpec {
+    
+    func simulateDeviceRotation(toOrientation orientation: UIDeviceOrientation) {
+        let orientationValue = NSNumber(value: orientation.rawValue)
+        UIDevice.current.setValue(orientationValue, forKey: "orientation")
+    }
     
     override func spec() {
         describe("QuizViewController") {
@@ -35,6 +41,56 @@ class QuizViewControllerKIFSpecs: KIFSpec {
                 
                 it("Should load view") {
                     expect(window) == snapshot()
+                }
+                
+                context("When device rotate") {
+                    beforeEach {
+                        viewTester().usingLabel(Constants.start)?.tap()
+                    }
+                    afterEach {
+                        self.simulateDeviceRotation(toOrientation: .portrait)
+                    }
+                    
+                    it("Should have correct layout when open and close keyboard") {
+                        self.simulateDeviceRotation(toOrientation: .landscapeRight)
+                        expect(window).to(haveValidSnapshot(named: "quiz-view-landscape", tolerance: 0.1))
+                       viewTester().waitForAnimationsToFinish()
+                        viewTester().usingIdentifier(Constants.identifiers.typeWordsTextField)?.waitForTappableView()?.tap()
+                        viewTester().waitForAnimationsToFinish()
+                        expect(window).to(haveValidSnapshot(named: "quiz-view-landscape-keyboard", tolerance: 0.1))
+                        viewTester().usingIdentifier(Constants.identifiers.quizView)?.waitForView()?.tap()
+                        viewTester().waitForAnimationsToFinish()
+                        viewTester().usingIdentifier(Constants.identifiers.typeWordsTextField)?.waitForTappableView()?.tap()
+                        viewTester().waitForAnimationsToFinish()
+                        expect(window).to(haveValidSnapshot(named: "quiz-view-landscape-keyboard", tolerance: 0.1))
+                        
+                        self.simulateDeviceRotation(toOrientation: .landscapeLeft)
+                        expect(window).to(haveValidSnapshot(named: "quiz-view-landscape", tolerance: 0.1))
+                        viewTester().usingIdentifier(Constants.identifiers.quizView)?.waitForView()?.tap()
+                       viewTester().waitForAnimationsToFinish()
+                        viewTester().usingIdentifier(Constants.identifiers.typeWordsTextField)?.waitForTappableView()?.tap()
+                        viewTester().waitForAnimationsToFinish()
+                        expect(window).to(haveValidSnapshot(named: "quiz-view-landscape-keyboard", tolerance: 0.1))
+                        viewTester().usingIdentifier(Constants.identifiers.quizView)?.waitForView()?.tap()
+                        viewTester().waitForAnimationsToFinish()
+                        viewTester().usingIdentifier(Constants.identifiers.typeWordsTextField)?.waitForTappableView()?.tap()
+                        viewTester().waitForAnimationsToFinish()
+                        expect(window).to(haveValidSnapshot(named: "quiz-view-landscape-keyboard", tolerance: 0.1))
+                        viewTester().usingIdentifier(Constants.identifiers.quizView)?.waitForView()?.tap()
+                        
+                        self.simulateDeviceRotation(toOrientation: .portrait)
+                        expect(window).to(haveValidSnapshot(named: "quiz-view-portrait", tolerance: 0.1))
+                       viewTester().waitForAnimationsToFinish()
+                        viewTester().usingIdentifier(Constants.identifiers.typeWordsTextField)?.waitForTappableView()?.tap()
+                        tester().waitForAnimationsToFinish()
+                        expect(window).to(haveValidSnapshot(named: "quiz-view-portrait-keyboard", tolerance: 0.1))
+                        viewTester().usingIdentifier(Constants.identifiers.quizView)?.waitForView()?.tap()
+                        viewTester().waitForAnimationsToFinish()
+                        viewTester().usingIdentifier(Constants.identifiers.typeWordsTextField)?.waitForTappableView()?.tap()
+                        viewTester().waitForAnimationsToFinish()
+                        expect(window).to(haveValidSnapshot(named: "quiz-view-portrait-keyboard", tolerance: 0.1))
+                        viewTester().usingIdentifier(Constants.identifiers.quizView)?.waitForView()?.tap()
+                    }
                 }
                 
                 context("When start playing") {

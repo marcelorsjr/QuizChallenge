@@ -61,23 +61,14 @@ class QuizView: UIView, CodeView {
         self.textField.accessibilityIdentifier = Constants.identifiers.typeWordsTextField
         
         tableView.tableFooterView = UIView()
-        
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
-
-
     }
     
-    @objc func keyboardWillShow(notification: NSNotification) {
-        if let keyboardSize = (notification.userInfo?[UIResponder.keyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue {
-            originalBottomViewFrame = self.quizBottomView.frame
-                self.quizBottomView.frame.origin.y -= keyboardSize.height
-        }
+    func moveTextfieldUp(height: CGFloat) {
+        self.quizBottomView.frame.origin.y =  self.frame.height - self.quizBottomView.frame.height - height
     }
     
-    @objc func keyboardWillHide(notification: NSNotification) {
-        guard let originalFrameY = originalBottomViewFrame?.origin.y else { return }
-            self.quizBottomView.frame.origin.y = originalFrameY
+    func moveTextfieldDown() {
+        self.quizBottomView.frame.origin.y = (self.frame.height - self.quizBottomView.frame.height)
     }
     
     func setupViewHierarchy() {

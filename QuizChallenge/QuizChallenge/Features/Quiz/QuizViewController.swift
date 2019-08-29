@@ -52,6 +52,37 @@ class QuizViewController: UIViewController {
         self.presenter.viewDidFinishLoading()
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        self.setupTextFieldObservers()
+    }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        self.removeObservers()
+    }
+    
+    private func removeObservers() {
+        NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillHideNotification, object: nil)
+    }
+    
+    private func setupTextFieldObservers() {
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
+    }
+    
+    @objc private func keyboardWillShow(notification: NSNotification) {
+        if let keyboardSize = (notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue {
+            quizView.moveTextfieldUp(height: keyboardSize.height)
+        }
+    }
+    
+    @objc private func keyboardWillHide(notification: NSNotification) {
+        quizView.moveTextfieldDown()
+    }
+    
+    
     private func setupViews() {
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(self.dismissKeyboard (_:)))
         self.view.addGestureRecognizer(tapGesture)
@@ -121,6 +152,7 @@ extension QuizViewController: QuizViewDelegate {
         }))
         self.present(alert, animated: true)
     }
+
 }
 
 extension QuizViewController: UITextFieldDelegate {
