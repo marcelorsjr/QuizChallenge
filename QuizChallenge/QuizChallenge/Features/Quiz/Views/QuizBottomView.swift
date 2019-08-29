@@ -65,18 +65,18 @@ class QuizBottomView: UIView, CodeView {
     func setupConstraints() {
         
         scoreLabel
-            .leadingAnchor(equalTo: self.leadingAnchor, constant: 16)
-            .topAnchor(equalTo: self.topAnchor, constant: 16)
+            .leadingAnchor(equalTo: safeAreaLayoutGuide.leadingAnchor, constant: 16)
+            .topAnchor(equalTo: safeAreaLayoutGuide.topAnchor, constant: 16)
         
         timeLabel
-            .trailingAnchor(equalTo: self.trailingAnchor, constant: -16)
-            .topAnchor(equalTo: self.topAnchor, constant: 16)
+            .trailingAnchor(equalTo: safeAreaLayoutGuide.trailingAnchor, constant: -16)
+            .topAnchor(equalTo: safeAreaLayoutGuide.topAnchor, constant: 16)
         
         resetButton
-            .trailingAnchor(equalTo: self.trailingAnchor, constant: -16)
-            .leadingAnchor(equalTo: self.leadingAnchor, constant: 16)
+            .trailingAnchor(equalTo: safeAreaLayoutGuide.trailingAnchor, constant: -16)
+            .leadingAnchor(equalTo: safeAreaLayoutGuide.leadingAnchor, constant: 16)
             .heightAnchor(equalTo: 40)
-            .bottomAnchor(equalTo: self.bottomAnchor, constant: -16)
+            .bottomAnchor(equalTo: safeAreaLayoutGuide.bottomAnchor, constant: -16)
     }
 }
 

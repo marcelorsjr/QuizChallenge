@@ -68,7 +68,7 @@ class QuizView: UIView, CodeView {
     }
     
     func moveTextfieldDown() {
-        self.quizBottomView.frame.origin.y = (self.frame.height - self.quizBottomView.frame.height)
+        self.quizBottomView.frame.origin.y = (self.frame.height - self.quizBottomView.frame.height - self.safeAreaInsets.bottom)
     }
     
     func setupViewHierarchy() {
@@ -91,19 +91,19 @@ class QuizView: UIView, CodeView {
     func setupConstraints() {
         titleLabel
             .topAnchor(equalTo: safeAreaLayoutGuide.topAnchor, constant: 24)
-            .leadingAnchor(equalTo: self.leadingAnchor, constant: 16)
-            .trailingAnchor(equalTo: self.trailingAnchor, constant: -16)
+            .leadingAnchor(equalTo: safeAreaLayoutGuide.leadingAnchor, constant: 16)
+            .trailingAnchor(equalTo: safeAreaLayoutGuide.trailingAnchor, constant: -16)
         
         textField
             .topAnchor(equalTo: titleLabel.bottomAnchor, constant: 16)
-            .leadingAnchor(equalTo: self.leadingAnchor, constant: 16)
-            .trailingAnchor(equalTo: self.trailingAnchor, constant: -16)
+            .leadingAnchor(equalTo: safeAreaLayoutGuide.leadingAnchor, constant: 16)
+            .trailingAnchor(equalTo: safeAreaLayoutGuide.trailingAnchor, constant: -16)
             .heightAnchor(equalTo: 40)
         
         tableView
             .topAnchor(equalTo: textField.bottomAnchor, constant: 10)
-            .leadingAnchor(equalTo: self.leadingAnchor, constant: 16)
-            .trailingAnchor(equalTo: self.trailingAnchor, constant: -16)
+            .leadingAnchor(equalTo: safeAreaLayoutGuide.leadingAnchor, constant: 16)
+            .trailingAnchor(equalTo: safeAreaLayoutGuide.trailingAnchor, constant: -16)
             .bottomAnchor(equalTo: quizBottomView.topAnchor)
         
         quizBottomView
