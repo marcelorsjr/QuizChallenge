@@ -41,6 +41,9 @@
 		22C01BC823178604009D9814 /* KeywordsEndpointSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22C01BC723178604009D9814 /* KeywordsEndpointSpec.swift */; };
 		22C01BCA2317F3DF009D9814 /* KeywordsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22C01BC92317F3DF009D9814 /* KeywordsService.swift */; };
 		22C01BCD2317F41D009D9814 /* APIClientMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22C01BCC2317F41D009D9814 /* APIClientMock.swift */; };
+		22C01BE1231851E6009D9814 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22C01BE0231851E6009D9814 /* main.swift */; };
+		22C01BE3231851FD009D9814 /* TestingAppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22C01BE2231851FD009D9814 /* TestingAppDelegate.swift */; };
+		22C01BE423185204009D9814 /* TestingAppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22C01BE2231851FD009D9814 /* TestingAppDelegate.swift */; };
 		6C9EEC35FC3D58C5CA280B6C /* Pods_QuizChallenge_QuizChallengeTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 26EDFA0C97109F1777258907 /* Pods_QuizChallenge_QuizChallengeTests.framework */; };
 		94FB374ED15013AAF1E13447 /* Pods_QuizChallenge.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4CC7951B507F243C024C6FA9 /* Pods_QuizChallenge.framework */; };
 		E96D968B62E2F8B6AD90DE00 /* Pods_QuizChallenge_QuizChallengeTests_QuizChallengeKIFTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DD52EE9E6A530BDDD33671FF /* Pods_QuizChallenge_QuizChallengeTests_QuizChallengeKIFTests.framework */; };
@@ -104,6 +107,8 @@
 		22C01BC723178604009D9814 /* KeywordsEndpointSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeywordsEndpointSpec.swift; sourceTree = "<group>"; };
 		22C01BC92317F3DF009D9814 /* KeywordsService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeywordsService.swift; sourceTree = "<group>"; };
 		22C01BCC2317F41D009D9814 /* APIClientMock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIClientMock.swift; sourceTree = "<group>"; };
+		22C01BE0231851E6009D9814 /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
+		22C01BE2231851FD009D9814 /* TestingAppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestingAppDelegate.swift; sourceTree = "<group>"; };
 		26EDFA0C97109F1777258907 /* Pods_QuizChallenge_QuizChallengeTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_QuizChallenge_QuizChallengeTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		293B98382B9182D988908A89 /* Pods-QuizChallenge-QuizChallengeTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-QuizChallenge-QuizChallengeTests.release.xcconfig"; path = "Target Support Files/Pods-QuizChallenge-QuizChallengeTests/Pods-QuizChallenge-QuizChallengeTests.release.xcconfig"; sourceTree = "<group>"; };
 		4185ED270DDCE793D9D4A7DF /* Pods-QuizChallenge-QuizChallengeTests-QuizChallengeKIFTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-QuizChallenge-QuizChallengeTests-QuizChallengeKIFTests.release.xcconfig"; path = "Target Support Files/Pods-QuizChallenge-QuizChallengeTests-QuizChallengeKIFTests/Pods-QuizChallenge-QuizChallengeTests-QuizChallengeKIFTests.release.xcconfig"; sourceTree = "<group>"; };
@@ -197,6 +202,7 @@
 				22740AC62315D9A9001BA685 /* Assets.xcassets */,
 				22740AC82315D9A9001BA685 /* LaunchScreen.storyboard */,
 				22740ACB2315D9A9001BA685 /* Info.plist */,
+				22C01BE0231851E6009D9814 /* main.swift */,
 			);
 			path = Application;
 			sourceTree = "<group>";
@@ -361,6 +367,7 @@
 				22C01BC4231785C3009D9814 /* ReferenceImages */,
 				22C01B9323176E10009D9814 /* QuizViewControllerSpec.swift */,
 				22C01BBC23177402009D9814 /* Info.plist */,
+				22C01BE2231851FD009D9814 /* TestingAppDelegate.swift */,
 			);
 			path = QuizChallengeKIFTests;
 			sourceTree = "<group>";
@@ -645,12 +652,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				22C01BE423185204009D9814 /* TestingAppDelegate.swift in Sources */,
 				22740B2123161C55001BA685 /* APIClient.swift in Sources */,
 				22C01B7C231752FF009D9814 /* Constants.swift in Sources */,
 				22740B0B2315FDDB001BA685 /* QuizBottomView.swift in Sources */,
 				22740B19231617CC001BA685 /* KeywordCell.swift in Sources */,
 				22740B1C2316185F001BA685 /* Keywords.swift in Sources */,
 				22740B16231617B4001BA685 /* Reusable.swift in Sources */,
+				22C01BE1231851E6009D9814 /* main.swift in Sources */,
 				22740B0D2316057E001BA685 /* QuizTableViewDataSource.swift in Sources */,
 				22740AF22315E21A001BA685 /* CodeView.swift in Sources */,
 				22740B022315F168001BA685 /* QuizViewController.swift in Sources */,
@@ -688,6 +697,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				22C01BE3231851FD009D9814 /* TestingAppDelegate.swift in Sources */,
 				22C01BC22317752A009D9814 /* QuizViewControllerSpec.swift in Sources */,
 				22C01BC323177546009D9814 /* KeywordsServiceMock.swift in Sources */,
 			);
