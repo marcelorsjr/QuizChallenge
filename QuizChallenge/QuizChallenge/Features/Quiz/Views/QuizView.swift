@@ -20,7 +20,11 @@ class QuizView: UIView, CodeView {
         return tableView
     }()
     
-    lazy var quizBottomView = QuizBottomView(frame: CGRect(x: 0, y: 0, width: frame.width, height: self.quizBottomViewHeight))
+    private let quizBottomView: QuizBottomView = {
+        let quizBottomView = QuizBottomView(frame: .zero)
+        quizBottomView.translatesAutoresizingMaskIntoConstraints = false
+        return quizBottomView
+    }()
     
     var resetButtonAction: (() -> Void)? {
         didSet {
@@ -28,7 +32,7 @@ class QuizView: UIView, CodeView {
         }
     }
     
-    private let quizBottomViewHeight: CGFloat = 120.0
+    private var originalBottomViewFrame: CGRect?
     
     override init(frame: CGRect = .zero) {
         super.init(frame: frame)
@@ -43,6 +47,7 @@ class QuizView: UIView, CodeView {
     func configureViews() {
         self.translatesAutoresizingMaskIntoConstraints = false
         self.backgroundColor = .white
+        self.accessibilityIdentifier = Constants.identifiers.quizView
         
         self.titleLabel.font = UIFont.boldSystemFont(ofSize: 34)
         self.titleLabel.textColor = .black
@@ -51,16 +56,35 @@ class QuizView: UIView, CodeView {
         
         self.textField.borderStyle = .roundedRect
         self.textField.placeholder = Constants.insertWord
-        self.textField.backgroundColor = #colorLiteral(red: 0.9607843137, green: 0.9607843137, blue: 0.9607843137, alpha: 1)
+        self.textField.backgroundColor = Constants.colors.whiteSmoke
         self.textField.autocorrectionType = .no
+        self.textField.accessibilityIdentifier = Constants.identifiers.typeWordsTextField
         
         tableView.tableFooterView = UIView()
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
+
+
+    }
+    
+    @objc func keyboardWillShow(notification: NSNotification) {
+        if let keyboardSize = (notification.userInfo?[UIResponder.keyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue {
+            originalBottomViewFrame = self.quizBottomView.frame
+                self.quizBottomView.frame.origin.y -= keyboardSize.height
+        }
+    }
+    
+    @objc func keyboardWillHide(notification: NSNotification) {
+        guard let originalFrameY = originalBottomViewFrame?.origin.y else { return }
+            self.quizBottomView.frame.origin.y = originalFrameY
     }
     
     func setupViewHierarchy() {
         addSubview(titleLabel)
         addSubview(textField)
         addSubview(tableView)
+        addSubview(quizBottomView)
     }
     
     func setupTableView(with dataSource: QuizTableViewDataSource) {
@@ -89,7 +113,13 @@ class QuizView: UIView, CodeView {
             .topAnchor(equalTo: textField.bottomAnchor, constant: 10)
             .leadingAnchor(equalTo: self.leadingAnchor, constant: 16)
             .trailingAnchor(equalTo: self.trailingAnchor, constant: -16)
-            .bottomAnchor(equalTo: safeAreaLayoutGuide.bottomAnchor, constant: -self.quizBottomViewHeight)
+            .bottomAnchor(equalTo: quizBottomView.topAnchor)
+        
+        quizBottomView
+            .bottomAnchor(equalTo: self.safeAreaLayoutGuide.bottomAnchor)
+            .leadingAnchor(equalTo: self.leadingAnchor)
+            .trailingAnchor(equalTo: self.trailingAnchor)
+            .heightAnchor(equalTo: 120.0)
     }
     
     func setScore(value: String) {

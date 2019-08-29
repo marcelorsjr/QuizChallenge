@@ -34,10 +34,10 @@ class QuizBottomView: UIView, CodeView {
     
     func configureViews() {
         self.translatesAutoresizingMaskIntoConstraints = false
-        self.backgroundColor = #colorLiteral(red: 0.9607843137, green: 0.9607843137, blue: 0.9607843137, alpha: 1)
+        self.backgroundColor = Constants.colors.whiteSmoke
         
         resetButton.setTitle(Constants.start, for: .normal)
-        resetButton.backgroundColor = #colorLiteral(red: 1, green: 0.5137254902, blue: 0, alpha: 1)
+        resetButton.backgroundColor = Constants.colors.darkSaturatedOrange
         resetButton.setTitleColor(.white, for: .normal)
         resetButton.titleLabel?.font = UIFont.systemFont(ofSize: 17, weight: .semibold)
         resetButton.layer.cornerRadius = 8.0

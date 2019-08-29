@@ -33,16 +33,6 @@ class QuizViewController: UIViewController {
         }
     }
     
-    override var inputAccessoryView: UIView? {
-        get {
-            return quizView.quizBottomView
-        }
-    }
-    
-    override var canBecomeFirstResponder: Bool {
-        return true
-    }
-    
     override func loadView() {
         view = quizView
     }
@@ -62,10 +52,6 @@ class QuizViewController: UIViewController {
         self.presenter.viewDidFinishLoading()
     }
     
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-    }
-    
     private func setupViews() {
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(self.dismissKeyboard (_:)))
         self.view.addGestureRecognizer(tapGesture)
@@ -83,20 +69,16 @@ class QuizViewController: UIViewController {
     }
     
     func setupForLoadingState() {
-        self.inputAccessoryView?.isHidden = true
         self.startLoading()
         self.quizView.shouldHideSubViews(true)
-        
     }
     
     func setupForNormalState() {
-        self.inputAccessoryView?.isHidden = false
         self.quizView.shouldHideSubViews(false)
         self.stopLoading()
     }
     
     func setupForErrorState() {
-        self.inputAccessoryView?.isHidden = true
         self.quizView.shouldHideSubViews(true)
         self.stopLoading()
     }

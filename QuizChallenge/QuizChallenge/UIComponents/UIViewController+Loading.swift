@@ -10,7 +10,7 @@ import Foundation
 
 extension UIViewController {
     func startLoading(title: String = "Loading...") {
-        LoadingView.shared.startLoading(on: self, title: title)
+        LoadingView.shared.startLoading(on: self.view, title: title)
     }
     
     func stopLoading() {

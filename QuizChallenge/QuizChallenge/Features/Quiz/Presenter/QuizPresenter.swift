@@ -20,7 +20,7 @@ protocol QuizViewDelegate: AnyObject {
 }
 
 class QuizPresenter {
-    weak private var quizView : QuizViewDelegate?
+    weak var quizView : QuizViewDelegate?
     private let keywordsService: KeywordsService
     private var keywords: Keywords? {
         didSet {
@@ -47,7 +47,6 @@ class QuizPresenter {
     }
     
     private func fetchKeywords() {
-        
         self.quizView?.state = .loading
         self.keywordsService.keywords { [weak self] (result) in
             switch result {
@@ -109,8 +108,8 @@ extension QuizPresenter: GamePresenter {
         })
     }
     
-    func timeFinished(correctAnswers: Int) {
-        self.quizView?.showAlert(with: Constants.timeFinished, text: Constants.timeFinishedText(correctAnswers, keywords?.answer.count ?? 0), buttonTitle: Constants.playAgain, action: { [weak self] in
+    func timeFinished(typedAnswers: Int) {
+        self.quizView?.showAlert(with: Constants.timeFinished, text: Constants.timeFinishedText(typedAnswers, keywords?.answer.count ?? 0), buttonTitle: Constants.playAgain, action: { [weak self] in
             self?.startOrResetGame()
         })
     }

@@ -1,5 +1,5 @@
 # Uncomment the next line to define a global platform for your project
-platform :ios, '10.0'
+platform :ios, '9.0'
 
 target 'QuizChallenge' do
   # Comment the next line if you don't want to use dynamic frameworks
@@ -8,15 +8,14 @@ target 'QuizChallenge' do
   # Pods for QuizChallenge
 
   target 'QuizChallengeTests' do
-    inherit! :search_paths
     pod 'Quick'
     pod 'Nimble'
     pod 'Nimble-Snapshots'
+    
+    target 'QuizChallengeKIFTests' do
+      pod 'KIF', '~> 3.7.4'
+      pod 'KIF-Quick'
+    end
   end
-
-  target 'QuizChallengeUITests' do
-    inherit! :search_paths
-    pod 'KIF'
-  end
-
+  
 end

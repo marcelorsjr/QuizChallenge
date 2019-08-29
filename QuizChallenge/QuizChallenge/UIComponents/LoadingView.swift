@@ -39,19 +39,19 @@ final class LoadingView: UIView, CodeView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func startLoading(on viewController: UIViewController, title: String) {
+    func startLoading(on view: UIView, title: String) {
         DispatchQueue.main.async { [weak self] in
             guard let self = self else { return }
             self.isHidden = false
             self.activityIndicator.startAnimating()
             self.titleLabel.text = title
             self.setupViews()
-            self.removeAnyPresentedLoadingOnView(viewController: viewController)
-            viewController.view.addSubview(self)
+            self.removeAnyPresentedLoadingOnView(view: view)
+            view.addSubview(self)
             self.superview?.isUserInteractionEnabled = false
-            self.constrainEdges(to: viewController.view)
+            self.constrainEdges(to: view)
             self.alpha = 0.0
-            viewController.view.layoutIfNeeded()
+            view.layoutIfNeeded()
             UIView.animate(withDuration: 0.3) {
                 self.alpha = 1.0
             }
@@ -76,7 +76,7 @@ final class LoadingView: UIView, CodeView {
         
         self.backgroundColor = UIColor.init(white: 0, alpha: 0.4)
         
-        self.backgroundView.backgroundColor = #colorLiteral(red: 0.09803921569, green: 0.09803921569, blue: 0.09803921569, alpha: 1)
+        self.backgroundView.backgroundColor = Constants.colors.nero
         self.backgroundView.alpha = 0.7
         self.backgroundView.clipsToBounds = true
         self.backgroundView.layer.cornerRadius = 15
@@ -112,10 +112,10 @@ final class LoadingView: UIView, CodeView {
         
     }
     
-    func removeAnyPresentedLoadingOnView(viewController: UIViewController) {
-        for view in viewController.view.subviews {
-            if view.isKind(of: LoadingView.self) {
-                view.removeFromSuperview()
+    func removeAnyPresentedLoadingOnView(view: UIView) {
+        for _view in view.subviews {
+            if _view.isKind(of: LoadingView.self) {
+                _view.removeFromSuperview()
             }
         }
     }

@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import UIKit
 
 enum Constants {
     
@@ -29,5 +30,21 @@ enum Constants {
     
     static let insertWord = "Insert Word"
     
+    enum colors {
+        static let whiteSmoke = UIColor(red: 245/255, green: 245/255, blue: 245/255, alpha: 1.0)
+        static let darkSaturatedOrange = UIColor(red: 255/255, green: 131/255, blue: 0, alpha: 1.0)
+        static let nero = UIColor(red: 25/255, green: 25/255, blue: 25/255, alpha: 1.0)
+    }
+    
+    enum identifiers {
+        static let typeWordsTextField = "typeWordsTextFieldIdentifier"
+        static let quizView = "quizViewIdentifier"
+    }
+    
+    enum api {
+        static let genericError = "Something went wrong... :/ \n Try again later!"
+        static let keywordsPath = "quiz/java-keywords"
+        static let baseURL = "https://codechallenge.arctouch.com/"
+    }
     
 }

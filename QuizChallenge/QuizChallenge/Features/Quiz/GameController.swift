@@ -11,7 +11,7 @@ import UIKit
 protocol GamePresenter: AnyObject {
     func formatTime(seconds: Int)
     func gameCompleted()
-    func timeFinished(correctAnswers: Int)
+    func timeFinished(typedAnswers: Int)
     func updateAnswers(_ answers: [String])
 }
 
@@ -36,7 +36,7 @@ class GameController {
     private func checkIfTimeFinished() {
         if currentSecond == 0 {
             self.stopTimer()
-            self.presenter?.timeFinished(correctAnswers: correctAnswers.count)
+            self.presenter?.timeFinished(typedAnswers: typedAnswers.count)
         }
     }
     
