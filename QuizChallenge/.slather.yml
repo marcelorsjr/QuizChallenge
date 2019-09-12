@@ -1,0 +1,11 @@
+# .slather.yml
+  
+coverage_service: html
+xcodeproj: QuizChallenge.xcodeproj
+workspace: QuizChallenge.xcworkspace
+scheme: QuizChallenge
+output_directory: html
+ignore:
+    - Pods/*
+    - QuizChallenge/Application/*
+    - QuizChallenge/Util/*
